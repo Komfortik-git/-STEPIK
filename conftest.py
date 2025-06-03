@@ -21,3 +21,14 @@ def browser(request):
     yield browser
     print("\nquit browser..")
     browser.quit()
+
+    import pytest
+from selenium import webdriver
+
+@pytest.fixture(scope="function")
+def browser():
+    print("\nStart browser for test...")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nQuit browser after test.")
+    browser.quit()
