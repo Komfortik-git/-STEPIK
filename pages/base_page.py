@@ -1,11 +1,12 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoAlertPresentException
 import math
+from .locators import BasePageLocators
 
 class BasePage:
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
-        self.url = url
+        self.url=url
         self.browser.implicitly_wait(timeout)
 
     def open(self):
@@ -31,3 +32,13 @@ class BasePage:
             return alert_text
         except NoAlertPresentException:
             return None
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented, probably unauthorized user"
+
+    def is_element_present(self, how, what):
+        try:
+            self.browser.find_element(how, what)
+        except Exception:
+            return False
+        return True
